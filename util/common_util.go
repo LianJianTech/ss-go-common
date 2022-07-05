@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/bwmarrin/snowflake"
 	"math/rand"
 	"net/url"
 	"reflect"
@@ -232,4 +233,14 @@ func ToMap(content interface{}) map[string]interface{} {
 		}
 	}
 	return name
+}
+
+func GenID() int64 {
+	node, err := snowflake.NewNode(1)
+	if err != nil {
+		fmt.Println(err)
+		return 0
+	}
+
+	return node.Generate().Int64()
 }
