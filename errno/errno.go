@@ -19,6 +19,10 @@ type Err struct {
 	Err  error
 }
 
+func (errno *Errno) SetMsg(err error) {
+	errno.Msg = err.Error()
+}
+
 func (err *Err) Error() string {
 	return fmt.Sprintf("Err - code: %d, message: %s, error: %s", err.Code, err.Msg, err.Err)
 }
