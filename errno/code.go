@@ -1,7 +1,7 @@
 package errno
 
 var (
-	OK           = &Errno{Code: 0, Msg: "ok"}
+	OK           = &Errno{Code: 0, Msg: "成功"}
 	ParamError   = &Errno{Code: 1, Msg: "请求参数错误"}
 	TokenError   = &Errno{Code: 2, Msg: "token错误"}
 	CodeError    = &Errno{Code: 3, Msg: "验证码错误"}

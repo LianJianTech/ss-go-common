@@ -36,11 +36,6 @@ func (err *Err) Add(message string) error {
 	return err
 }
 
-func (err *Err) Addf(format string, args ...interface{}) error {
-	err.Msg += " " + fmt.Sprintf(format, args...)
-	return err
-}
-
 func DecodeErr(err error) (int, string) {
 	if err == nil {
 		return OK.Code, OK.Msg

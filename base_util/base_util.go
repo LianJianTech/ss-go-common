@@ -1,4 +1,4 @@
-package util
+package baseUtil
 
 import (
 	"bytes"
@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/LianJianTech/ss-go-common/log"
 	"github.com/bwmarrin/snowflake"
 	"math/rand"
 	"net/url"
@@ -236,12 +237,47 @@ func ToMap(content interface{}) map[string]interface{} {
 	return name
 }
 
-func GenID() int64 {
+// 随机产生N位数字
+func RandomNum(count int) string {
+	rand.Seed(time.Now().UTC().UnixNano())
+	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
+	code := fmt.Sprintf("%06v", rnd.Int31n(1000000))
+	log.Infof("random code: %v", code)
+	return code
+}
+
+// 雪花算法 生成分布式ID 是否会生成冲突?
+func GenID() (string, error) {
 	node, err := snowflake.NewNode(1)
 	if err != nil {
-		fmt.Println(err)
-		return 0
+		log.Errorf(err, "GenID snowflake.NewNode error")
+		return "", err
 	}
+	id := fmt.Sprintf(`%v`, node.Generate().Int64())
+	ranStr := RandString(8)
+	id = id + ranStr
+	return id, nil
+}
 
-	return node.Generate().Int64()
+// 获取时间戳(毫秒)
+func GetTimestamp() int64 {
+	return time.Now().UTC().Unix()
+}
+
+// 校验手机号
+func VerifyMobile(mobile string) bool {
+	//regexMobile := "^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$"
+	regexMobile := "^(1[3-9])\\d{9}$"
+	re := regexp.MustCompile(regexMobile)
+	return re.MatchString(mobile)
+}
+
+var letter = []rune("abcdefghjkmnopqrstuvwxyzABCDEFGHJKMNOPQRSTUVWXYZ")
+
+func RandString(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letter[rand.Intn(len(letter))]
+	}
+	return string(b)
 }
