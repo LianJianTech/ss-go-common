@@ -275,6 +275,7 @@ func VerifyMobile(mobile string) bool {
 var letter = []rune("abcdefghjkmnopqrstuvwxyzABCDEFGHJKMNOPQRSTUVWXYZ")
 
 func RandString(n int) string {
+	rand.Seed(time.Now().UTC().UnixNano())
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = letter[rand.Intn(len(letter))]
