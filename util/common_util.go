@@ -154,9 +154,10 @@ func ToJSONStr(val interface{}) string {
 }
 
 func CatchError() {
-	if err := recover(); err != nil {
+	recover()
+	/*if err := recover(); err != nil {
 		fmt.Errorf("recover error:%v\n", err)
-	}
+	}*/
 }
 
 func GetDatetime(layout string) int64 {
