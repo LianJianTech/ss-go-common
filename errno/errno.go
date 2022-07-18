@@ -19,8 +19,8 @@ type Err struct {
 	Err  error
 }
 
-func (errno *Errno) SetMsg(err error) {
-	errno.Msg = err.Error()
+func (errno *Errno) SetMsg(msg string) {
+	errno.Msg = msg
 }
 
 func (err *Err) Error() string {
